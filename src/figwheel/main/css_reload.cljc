@@ -29,7 +29,7 @@
 ;; set level (.setLevel logger goog.debug.Logger.Level.INFO)
 ;; disable   (.setCapturing log-console false)
 
-     (defonce logger (glog/getLogger "Figwheel CSS Reload"))
+     (defonce logger (glog/getLogger "Figwheel CSS Reload" goog.debug.Logger.Level.INFO))
 
      (defn ^:export console-logging []
        (when-not (gobj/get goog.debug.Console "instance")
@@ -138,10 +138,10 @@
                 (.then prom
                        (fn [loaded-files]
                          (when (not-empty loaded-files)
-                           (glog/info logger (str "loaded " (pr-str loaded-files)))
+                           (glog/info logger (str "loaded " (pr-str loaded-files)) nil)
                            (dispatch-on-css-load loaded-files))
                          (when-let [not-loaded (not-empty (remove (set loaded-files) (set files)))]
-                           (glog/warning logger (str "Unable to reload " (pr-str not-loaded))))
+                           (glog/warning logger (str "Unable to reload " (pr-str not-loaded)) nil))
                          ;; reset
                          [])))))
 
